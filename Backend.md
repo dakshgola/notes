@@ -2,18 +2,20 @@ pasted-text.txt
 
 TXT
 
-
 GENERARE A MD FILE FOR THIS IN A DETAILED VERSION
-
 
 markdown
 
-
 # Complete Backend Development Guide
+
 ## Node.js + Express + MongoDB
+
 > A comprehensive, beginner-friendly reference for backend development. Covers fundamentals through production-ready practices.
+
 ---
+
 ## Table of Contents
+
 1. [Introduction to Backend Development](#1-introduction-to-backend-development)
 2. [How the Internet Works](#2-how-the-internet-works)
 3. [Understanding Servers](#3-understanding-servers)
@@ -55,17 +57,24 @@ markdown
 39. [Interview Questions](#39-interview-questions)
 40. [Learning Roadmap](#40-learning-roadmap)
 41. [Quick Reference Cheatsheet](#41-quick-reference-cheatsheet)
+
 ---
+
 ## 1. Introduction to Backend Development
+
 Backend development encompasses everything that happens behind the scenes of a web application—the parts users never directly see but constantly interact with.
+
 ### Frontend vs Backend
-| Aspect | Frontend | Backend |
-|--------|----------|---------|
-| **What it is** | User interface, visual elements | Server logic, data processing |
-| **Technologies** | HTML, CSS, JavaScript, React | Node.js, Express, databases |
-| **User interaction** | Direct | Indirect (through APIs) |
-| **Location** | Browser | Server |
+
+| Aspect               | Frontend                        | Backend                       |
+| -------------------- | ------------------------------- | ----------------------------- |
+| **What it is**       | User interface, visual elements | Server logic, data processing |
+| **Technologies**     | HTML, CSS, JavaScript, React    | Node.js, Express, databases   |
+| **User interaction** | Direct                          | Indirect (through APIs)       |
+| **Location**         | Browser                         | Server                        |
+
 ### What Backend Handles
+
 - **Authentication & Authorization** — Verifying user identity and permissions
 - **Database Operations** — Storing, retrieving, and manipulating data
 - **API Development** — Creating endpoints for frontend communication
@@ -73,8 +82,11 @@ Backend development encompasses everything that happens behind the scenes of a w
 - **Security** — Protecting data and preventing unauthorized access
 - **File Processing** — Handling uploads, transformations, storage
 - **Third-party Integrations** — Payment gateways, email services, external APIs
+
 ### Real-World Example: Instagram Login
+
 When a user logs into Instagram:
+
 1. **Frontend** displays the login form and captures input
 2. **Backend** receives the credentials and:
    - Validates the email format
@@ -83,16 +95,20 @@ When a user logs into Instagram:
    - Generates an authentication token
    - Returns success/failure response
 3. **Frontend** redirects based on the response
-The backend handles all the critical logic—the frontend just presents information and collects input.
+   The backend handles all the critical logic—the frontend just presents information and collects input.
+
 ---
+
 ## 2. How the Internet Works
+
 Understanding internet fundamentals helps you build better backend systems.
+
 ### The Basic Request Flow
+
 User → Browser → DNS → Internet → Server → Database ↓ User ← Browser ← Internet ←←←←←← Response
 
-
-
 ### Step-by-Step Breakdown
+
 1. **User Action** — User types `google.com` or clicks a link
 2. **DNS Lookup** — Domain name translates to IP address (e.g., `142.250.190.78`)
 3. **Request Sent** — Browser sends HTTP request through the internet
@@ -101,30 +117,41 @@ User → Browser → DNS → Internet → Server → Database ↓ User ← Brows
 6. **Response Generated** — Server constructs the response (HTML, JSON, etc.)
 7. **Response Delivered** — Data travels back through the internet
 8. **Browser Renders** — User sees the result
+
 ### Key Protocols
-| Protocol | Purpose | Port |
-|----------|---------|------|
-| **HTTP** | Web communication (unencrypted) | 80 |
-| **HTTPS** | Secure web communication (encrypted) | 443 |
-| **TCP/IP** | Data transmission foundation | — |
-| **DNS** | Domain to IP translation | 53 |
+
+| Protocol   | Purpose                              | Port |
+| ---------- | ------------------------------------ | ---- |
+| **HTTP**   | Web communication (unencrypted)      | 80   |
+| **HTTPS**  | Secure web communication (encrypted) | 443  |
+| **TCP/IP** | Data transmission foundation         | —    |
+| **DNS**    | Domain to IP translation             | 53   |
+
 ---
+
 ## 3. Understanding Servers
+
 A server is a computer program or device that provides functionality to other programs or devices (clients).
+
 ### Types of Servers
-| Type | Purpose | Examples |
-|------|---------|----------|
-| **Web Server** | Serves web pages and APIs | Nginx, Apache |
-| **Application Server** | Runs application logic | Node.js, Django |
-| **Database Server** | Stores and retrieves data | MongoDB, PostgreSQL |
-| **File Server** | Stores and serves files | AWS S3, ImageKit |
-| **Mail Server** | Handles email | SendGrid, Mailgun |
+
+| Type                   | Purpose                   | Examples            |
+| ---------------------- | ------------------------- | ------------------- |
+| **Web Server**         | Serves web pages and APIs | Nginx, Apache       |
+| **Application Server** | Runs application logic    | Node.js, Django     |
+| **Database Server**    | Stores and retrieves data | MongoDB, PostgreSQL |
+| **File Server**        | Stores and serves files   | AWS S3, ImageKit    |
+| **Mail Server**        | Handles email             | SendGrid, Mailgun   |
+
 ### Server Characteristics
+
 - **Always On** — Runs 24/7 to handle requests anytime
 - **Listens on Ports** — Waits for incoming connections on specific ports
 - **Handles Multiple Requests** — Processes many requests simultaneously
 - **Stateless (typically)** — Each request is independent
+
 ### What Happens on a Server
+
 ```javascript
 // Simplified server concept
 while (true) {
@@ -459,22 +486,22 @@ javascript
 app.get('/example', (req, res) => {
   // Send JSON
   res.json({ data: 'value' });
-  
+
   // Send plain text
   res.send('Hello');
-  
+
   // Set status code
   res.status(201).json({ created: true });
-  
+
   // Redirect
   res.redirect('/other-page');
-  
+
   // Send file
   res.sendFile('/path/to/file.pdf');
-  
+
   // Set headers
   res.set('X-Custom-Header', 'value');
-  
+
   // Set cookie
   res.cookie('name', 'value', { httpOnly: true });
 });
@@ -729,11 +756,11 @@ javascript
 
 const authenticate = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
-  
+
   if (!token) {
     return res.status(401).json({ message: 'No token provided' });
   }
-  
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
@@ -752,12 +779,12 @@ javascript
 
 const requestTimer = (req, res, next) => {
   req.startTime = Date.now();
-  
+
   res.on('finish', () => {
     const duration = Date.now() - req.startTime;
     console.log(`${req.method} ${req.path} - ${duration}ms`);
   });
-  
+
   next();
 };
 app.use(requestTimer);
@@ -807,9 +834,9 @@ javascript
 
 app.post('/users', async (req, res) => {
   const { name, email, password } = req.body;
-  
+
   const user = await User.create({ name, email, password });
-  
+
   res.status(201).json({
     success: true,
     data: user
@@ -826,7 +853,7 @@ app.put('/users/:id', async (req, res) => {
     req.body,
     { new: true, overwrite: true }
   );
-  
+
   res.json(user);
 });
 PATCH — Partial Update
@@ -840,7 +867,7 @@ app.patch('/users/:id', async (req, res) => {
     { $set: req.body },
     { new: true }
   );
-  
+
   res.json(user);
 });
 DELETE — Remove Resource
@@ -849,7 +876,7 @@ javascript
 
 app.delete('/users/:id', async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
-  
+
   res.status(204).send(); // No content
   // or
   res.json({ message: 'User deleted' });
@@ -962,17 +989,17 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 10, category, sort = '-createdAt' } = req.query;
-    
+
     const query = {};
     if (category) query.category = category;
-    
+
     const products = await Product.find(query)
       .sort(sort)
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
-    
+
     const total = await Product.countDocuments(query);
-    
+
     res.json({
       success: true,
       count: products.length,
@@ -992,14 +1019,14 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({
         success: false,
         message: 'Product not found'
       });
     }
-    
+
     res.json({ success: true, data: product });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -1022,14 +1049,14 @@ router.patch('/:id', async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-    
+
     if (!product) {
       return res.status(404).json({
         success: false,
         message: 'Product not found'
       });
     }
-    
+
     res.json({ success: true, data: product });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -1039,14 +1066,14 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({
         success: false,
         message: 'Product not found'
       });
     }
-    
+
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -1234,7 +1261,7 @@ MongoDB Atlas is a fully managed cloud database service.
 
 Setup Steps
 Create Account
-Go to 
+Go to
 mongodb.com
 Sign up for free
 Create Cluster
@@ -1308,7 +1335,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       // Options are mostly defaults in Mongoose 6+
     });
-    
+
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
@@ -1712,7 +1739,7 @@ const User = require('../models/User');
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
-    
+
     res.status(200).json({
       success: true,
       count: users.length,
@@ -1726,14 +1753,14 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: user
@@ -1746,7 +1773,7 @@ exports.getUser = async (req, res, next) => {
 exports.createUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    
+
     res.status(201).json({
       success: true,
       data: user
@@ -1763,14 +1790,14 @@ exports.updateUser = async (req, res, next) => {
       req.body,
       { new: true, runValidators: true }
     );
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: user
@@ -1783,14 +1810,14 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
-    
+
     res.status(204).send();
   } catch (error) {
     next(error);
@@ -1949,7 +1976,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next) {
   // Only hash if password was modified
   if (!this.isModified('password')) return next();
-  
+
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -1999,13 +2026,13 @@ const generateToken = (user) => {
     email: user.email,
     role: user.role
   };
-  
+
   const token = jwt.sign(
     payload,
     process.env.JWT_SECRET,
     { expiresIn: '7d' }  // Token expires in 7 days
   );
-  
+
   return token;
 };
 Verifying Tokens
@@ -2034,31 +2061,31 @@ const protect = async (req, res, next) => {
   try {
     // Get token from header
     let token;
-    
+
     if (req.headers.authorization?.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }
-    
+
     if (!token) {
       return res.status(401).json({
         success: false,
         message: 'Not authorized, no token'
       });
     }
-    
+
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Get user from token
     const user = await User.findById(decoded.id);
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,
         message: 'User not found'
       });
     }
-    
+
     // Attach user to request
     req.user = user;
     next();
@@ -2085,7 +2112,7 @@ const generateToken = (id) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    
+
     // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -2094,13 +2121,13 @@ exports.register = async (req, res) => {
         message: 'Email already registered'
       });
     }
-    
+
     // Create user (password hashed by pre-save hook)
     const user = await User.create({ name, email, password });
-    
+
     // Generate token
     const token = generateToken(user._id);
-    
+
     res.status(201).json({
       success: true,
       data: {
@@ -2121,7 +2148,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     // Validate input
     if (!email || !password) {
       return res.status(400).json({
@@ -2129,30 +2156,30 @@ exports.login = async (req, res) => {
         message: 'Please provide email and password'
       });
     }
-    
+
     // Find user and include password
     const user = await User.findOne({ email }).select('+password');
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
-    
+
     // Check password
     const isMatch = await user.comparePassword(password);
-    
+
     if (!isMatch) {
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
-    
+
     // Generate token
     const token = generateToken(user._id);
-    
+
     res.json({
       success: true,
       data: {
@@ -2249,16 +2276,16 @@ javascript
 // Login - set cookie
 exports.login = async (req, res) => {
   // ... validate user ...
-  
+
   const token = generateToken(user._id);
-  
+
   res.cookie('jwt', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000  // 30 days
   });
-  
+
   res.json({ success: true, data: user });
 };
 // Logout - clear cookie
@@ -2269,11 +2296,11 @@ exports.logout = (req, res) => {
 // Auth middleware - read from cookie
 const protect = async (req, res, next) => {
   const token = req.cookies.jwt;
-  
+
   if (!token) {
     return res.status(401).json({ message: 'Not authorized' });
   }
-  
+
   // ... verify token ...
 };
 25. Authorization & Role-Based Access
@@ -2337,7 +2364,7 @@ javascript
 
 exports.updatePost = async (req, res) => {
   const post = await Post.findById(req.params.id);
-  
+
   // Check ownership (unless admin)
   if (post.author.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
     return res.status(403).json({
@@ -2345,7 +2372,7 @@ exports.updatePost = async (req, res) => {
       message: 'Not authorized to update this post'
     });
   }
-  
+
   // Proceed with update...
 };
 Combined Middleware Example
@@ -2356,25 +2383,25 @@ javascript
 const checkOwnership = (Model, resourceName = 'Resource') => {
   return async (req, res, next) => {
     const resource = await Model.findById(req.params.id);
-    
+
     if (!resource) {
       return res.status(404).json({
         success: false,
         message: `${resourceName} not found`
       });
     }
-    
+
     // Check if user owns resource or is admin
     const isOwner = resource.user?.toString() === req.user._id.toString();
     const isAdmin = req.user.role === 'admin';
-    
+
     if (!isOwner && !isAdmin) {
       return res.status(403).json({
         success: false,
         message: 'Not authorized'
       });
     }
-    
+
     req.resource = resource;
     next();
   };
@@ -2492,9 +2519,9 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
-    
+
     const result = await uploadToCloudinary(req.file.buffer, 'avatars');
-    
+
     res.json({
       success: true,
       data: {
@@ -2518,14 +2545,14 @@ html
 <script>
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  
+
   const formData = new FormData(e.target);
-  
+
   const response = await fetch('/api/upload', {
     method: 'POST',
     body: formData
   });
-  
+
   const data = await response.json();
   console.log(data.url);
 });
@@ -2618,7 +2645,7 @@ const requiredEnvVars = [
 ];
 const validateEnv = () => {
   const missing = requiredEnvVars.filter(varName => !process.env[varName]);
-  
+
   if (missing.length > 0) {
     throw new Error(`Missing environment variables: ${missing.join(', ')}`);
   }
@@ -2675,18 +2702,18 @@ const userValidationRules = [
     .trim()
     .notEmpty().withMessage('Name is required')
     .isLength({ min: 2, max: 50 }).withMessage('Name must be 2-50 characters'),
-  
+
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
     .isEmail().withMessage('Invalid email format')
     .normalizeEmail(),
-  
+
   body('password')
     .notEmpty().withMessage('Password is required')
     .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
     .matches(/\d/).withMessage('Password must contain a number'),
-  
+
   body('age')
     .optional()
     .isInt({ min: 0, max: 150 }).withMessage('Age must be 0-150')
@@ -2697,7 +2724,7 @@ javascript
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     return res.status(400).json({
       success: false,
@@ -2707,7 +2734,7 @@ const validate = (req, res, next) => {
       }))
     });
   }
-  
+
   next();
 };
 module.exports = { validate, userValidationRules };
@@ -2727,21 +2754,21 @@ const validators = {
   body('field').isLength({min, max}) // Length range
   body('field').trim()               // Remove whitespace
   body('field').escape()             // Escape HTML
-  
+
   // Email & URL
   body('email').isEmail()
   body('url').isURL()
-  
+
   // Numbers
   body('age').isInt({min: 0})
   body('price').isFloat({min: 0})
   body('quantity').isNumeric()
-  
+
   // Arrays & Objects
   body('tags').isArray()
   body('tags.*').isString()
   body('address').isObject()
-  
+
   // Custom validation
   body('username').custom(async (value) => {
     const user = await User.findOne({ username: value });
@@ -2750,7 +2777,7 @@ const validators = {
     }
     return true;
   })
-  
+
   // Sanitization
   body('field').trim()
   body('field').toLowerCase()
@@ -2793,11 +2820,11 @@ javascript
 class AppError extends Error {
   constructor(message, statusCode) {
     super(message);
-    
+
     this.statusCode = statusCode;
     this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
     this.isOperational = true;
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -2810,10 +2837,10 @@ javascript
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
-  
+
   // Log for debugging
   console.error('Error:', err);
-  
+
   // Mongoose bad ObjectId
   if (err.name === 'CastError') {
     error = {
@@ -2821,7 +2848,7 @@ const errorHandler = (err, req, res, next) => {
       statusCode: 404
     };
   }
-  
+
   // Mongoose duplicate key
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0];
@@ -2830,7 +2857,7 @@ const errorHandler = (err, req, res, next) => {
       statusCode: 400
     };
   }
-  
+
   // Mongoose validation error
   if (err.name === 'ValidationError') {
     const messages = Object.values(err.errors).map(val => val.message);
@@ -2839,7 +2866,7 @@ const errorHandler = (err, req, res, next) => {
       statusCode: 400
     };
   }
-  
+
   // JWT errors
   if (err.name === 'JsonWebTokenError') {
     error = {
@@ -2847,14 +2874,14 @@ const errorHandler = (err, req, res, next) => {
       statusCode: 401
     };
   }
-  
+
   if (err.name === 'TokenExpiredError') {
     error = {
       message: 'Token expired',
       statusCode: 401
     };
   }
-  
+
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || 'Server Error',
@@ -2870,11 +2897,11 @@ const AppError = require('../utils/AppError');
 exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    
+
     if (!user) {
       return next(new AppError('User not found', 404));
     }
-    
+
     res.json({ success: true, data: user });
   } catch (error) {
     next(error);
@@ -2895,11 +2922,11 @@ module.exports = asyncHandler;
 const asyncHandler = require('../utils/asyncHandler');
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-  
+
   if (!user) {
     return next(new AppError('User not found', 404));
   }
-  
+
   res.json({ success: true, data: user });
 });
 404 Handler
@@ -3178,9 +3205,9 @@ const sendSuccess = (res, data, statusCode = 200, message = null) => {
     success: true,
     data
   };
-  
+
   if (message) response.message = message;
-  
+
   res.status(statusCode).json(response);
 };
 const sendError = (res, message, statusCode = 500, code = null) => {
@@ -3188,9 +3215,9 @@ const sendError = (res, message, statusCode = 500, code = null) => {
     success: false,
     error: { message }
   };
-  
+
   if (code) response.error.code = code;
-  
+
   res.status(statusCode).json(response);
 };
 module.exports = { sendSuccess, sendError };
@@ -3204,7 +3231,7 @@ const paginate = async (Model, query = {}, options = {}) => {
   const limit = parseInt(options.limit) || 10;
   const skip = (page - 1) * limit;
   const sort = options.sort || '-createdAt';
-  
+
   const [data, totalCount] = await Promise.all([
     Model.find(query)
       .sort(sort)
@@ -3213,7 +3240,7 @@ const paginate = async (Model, query = {}, options = {}) => {
       .populate(options.populate || ''),
     Model.countDocuments(query)
   ]);
-  
+
   return {
     data,
     pagination: {
@@ -3236,12 +3263,12 @@ const { sendSuccess } = require('../utils/response');
 const User = require('../models/User');
 exports.getAllUsers = asyncHandler(async (req, res) => {
   const { page, limit, sort, role } = req.query;
-  
+
   const query = {};
   if (role) query.role = role;
-  
+
   const result = await paginate(User, query, { page, limit, sort });
-  
+
   sendSuccess(res, result.data, 200);
   res.json({
     success: true,
@@ -3252,11 +3279,11 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
 });
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-  
+
   if (!user) {
     return next(new AppError('User not found', 404));
   }
-  
+
   sendSuccess(res, user);
 });
 33. Security Best Practices
@@ -3405,10 +3432,10 @@ const corsOptions = {
       '[myapp.com](https://myapp.com)',
       '[myapp.com](https://www.myapp.com)'
     ];
-    
+
     // Allow requests with no origin (mobile apps, Postman)
     if (!origin) return callback(null, true);
-    
+
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -3452,12 +3479,12 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   const fs = require('fs');
   const path = require('path');
-  
+
   const accessLogStream = fs.createWriteStream(
     path.join(__dirname, 'logs', 'access.log'),
     { flags: 'a' }
   );
-  
+
   app.use(morgan('combined', { stream: accessLogStream }));
 }
 Winston for Application Logging
@@ -3586,7 +3613,7 @@ const request = require('supertest');
 const app = require('../src/app');
 const User = require('../src/models/User');
 describe('Auth Endpoints', () => {
-  
+
   describe('POST /api/auth/register', () => {
     it('should register a new user', async () => {
       const res = await request(app)
@@ -3596,13 +3623,13 @@ describe('Auth Endpoints', () => {
           email: 'test@example.com',
           password: 'password123'
         });
-      
+
       expect(res.statusCode).toBe(201);
       expect(res.body.success).toBe(true);
       expect(res.body.data).toHaveProperty('token');
       expect(res.body.data.email).toBe('test@example.com');
     });
-    
+
     it('should not register with existing email', async () => {
       // Create user first
       await User.create({
@@ -3610,7 +3637,7 @@ describe('Auth Endpoints', () => {
         email: 'test@example.com',
         password: 'password123'
       });
-      
+
       const res = await request(app)
         .post('/api/auth/register')
         .send({
@@ -3618,20 +3645,20 @@ describe('Auth Endpoints', () => {
           email: 'test@example.com',
           password: 'password123'
         });
-      
+
       expect(res.statusCode).toBe(400);
       expect(res.body.success).toBe(false);
     });
-    
+
     it('should require all fields', async () => {
       const res = await request(app)
         .post('/api/auth/register')
         .send({ name: 'Test' });
-      
+
       expect(res.statusCode).toBe(400);
     });
   });
-  
+
   describe('POST /api/auth/login', () => {
     beforeEach(async () => {
       await request(app)
@@ -3642,7 +3669,7 @@ describe('Auth Endpoints', () => {
           password: 'password123'
         });
     });
-    
+
     it('should login with valid credentials', async () => {
       const res = await request(app)
         .post('/api/auth/login')
@@ -3650,11 +3677,11 @@ describe('Auth Endpoints', () => {
           email: 'test@example.com',
           password: 'password123'
         });
-      
+
       expect(res.statusCode).toBe(200);
       expect(res.body.data).toHaveProperty('token');
     });
-    
+
     it('should reject invalid password', async () => {
       const res = await request(app)
         .post('/api/auth/login')
@@ -3662,7 +3689,7 @@ describe('Auth Endpoints', () => {
           email: 'test@example.com',
           password: 'wrongpassword'
         });
-      
+
       expect(res.statusCode).toBe(401);
     });
   });
@@ -3673,7 +3700,7 @@ javascript
 
 describe('GET /api/users/me', () => {
   let token;
-  
+
   beforeEach(async () => {
     const res = await request(app)
       .post('/api/auth/register')
@@ -3682,23 +3709,23 @@ describe('GET /api/users/me', () => {
         email: 'test@example.com',
         password: 'password123'
       });
-    
+
     token = res.body.data.token;
   });
-  
+
   it('should return current user', async () => {
     const res = await request(app)
       .get('/api/users/me')
       .set('Authorization', `Bearer ${token}`);
-    
+
     expect(res.statusCode).toBe(200);
     expect(res.body.data.email).toBe('test@example.com');
   });
-  
+
   it('should reject without token', async () => {
     const res = await request(app)
       .get('/api/users/me');
-    
+
     expect(res.statusCode).toBe(401);
   });
 });
@@ -3962,12 +3989,12 @@ javascript
 
 const requestLogger = (req, res, next) => {
   const start = Date.now();
-  
+
   res.on('finish', () => {
     const duration = Date.now() - start;
     console.log(`${req.method} ${req.path} - ${duration}ms`);
   });
-  
+
   next();
 };
 Q: Implement rate limiting from scratch
@@ -3977,27 +4004,27 @@ javascript
 
 const rateLimiter = (windowMs, maxRequests) => {
   const requests = new Map();
-  
+
   return (req, res, next) => {
     const ip = req.ip;
     const now = Date.now();
-    
+
     if (!requests.has(ip)) {
       requests.set(ip, { count: 1, start: now });
       return next();
     }
-    
+
     const record = requests.get(ip);
-    
+
     if (now - record.start > windowMs) {
       requests.set(ip, { count: 1, start: now });
       return next();
     }
-    
+
     if (record.count >= maxRequests) {
       return res.status(429).json({ message: 'Too many requests' });
     }
-    
+
     record.count++;
     next();
   };
@@ -4247,3 +4274,5 @@ DELETE /api/notes/:id      (delete note)
 
 
 
+
+```
